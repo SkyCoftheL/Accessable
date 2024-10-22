@@ -1,0 +1,474 @@
+package org.example.accessible;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.PixelFormat;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.provider.Settings;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+
+public class FloatWindow extends AppCompatActivity {
+
+    private WindowManager windowManager;
+    private View floatingView;
+    private WindowManager.LayoutParams layoutParams;
+    private int initialX;
+    private int initialY;
+    private float dX;
+    private float dY;
+
+    private static final String[] COMMANDSRECENT = {
+            //"su", // 请求 Root 权限
+            "input keyevent 187" // RECENT_APPS 键 (可能需要根据设备调整)
+    };
+
+    private static final String[] COMMANDSHOME = {
+            //"su", // 请求 Root 权限
+            "input keyevent 3", // HOME 键
+    };
+
+    private static final String[] COMMANDSU ={
+            "su"
+    };
+
+    private TextView checkRoot;
+    private Button home,recent;
+
+    private static final long DOUBLE_CLICK_TIME_DELTA = 200; // 300毫秒内点击两次算作双击
+    private long firstClickTime = 0;
+    private boolean isDoubleClick = false;
+    private long currentTime;
+    private Handler handler = new Handler();
+
+    private GestureDetector gestureDetector;
+
+    //private double initialX, initialY;
+    private int lastX, lastY;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(this)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, 1234);
+            } else {
+                //addFloatingWindow();
+            }
+        } else {
+            //addFloatingWindow();
+        }
+
+
+
+        home=findViewById(R.id.homeid);
+        recent=findViewById(R.id.recentid);
+
+        findViewById(R.id.recentid).setOnClickListener(v -> {
+            try {
+                executeRootCommands(COMMANDSRECENT);
+            } catch (IOException | InterruptedException e) {
+                Toast.makeText(this,R.string.check_root,Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+                windowManager.removeView(floatingView);
+                finish();
+            }
+        });
+
+        findViewById(R.id.homeid).setOnClickListener(v ->{
+            try {
+                executeRootCommands(COMMANDSHOME);
+            } catch (IOException | InterruptedException e) {
+                Toast.makeText(this,R.string.check_root,Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+                windowManager.removeView(floatingView);
+                finish();
+            }
+        });
+
+        findViewById(R.id.exitid).setOnClickListener(view -> {
+                windowManager.removeView(floatingView);
+                finish();
+
+        });
+
+        checkRoot=findViewById(R.id.infor);
+        checkRoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkroot();
+            }
+        });
+
+
+
+        gestureDetector=new GestureDetector(this,new GestureDetector.SimpleOnGestureListener(){
+           // @Override
+//            public boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
+////                int dx = (int) (e2.getRawX() - e1.getRawX());
+////                int dy = (int) (e2.getRawY() - e1.getRawY());
+//                float dx=velocityX;
+//                float dy=velocityY;
+//                updateLayoutParams(dx, dy);
+//                Log.d("onFling", "onFling: ");
+//                return true;
+//            }
+
+            @Override
+            public boolean onSingleTapConfirmed(@NonNull MotionEvent e) {
+                Log.d("onSin", "onSingleTapConfirmed: ");
+                try {
+                    executeRootCommands(COMMANDSHOME);
+                } catch (IOException | InterruptedException eve) {
+                    Toast.makeText(FloatWindow.this,R.string.check_root,Toast.LENGTH_SHORT).show();
+                    windowManager.removeView(floatingView);
+                    eve.printStackTrace();
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onDoubleTap(@NonNull MotionEvent e) {
+                Log.d("onDou", "onDoubleTap: ");
+                try {
+                    executeRootCommands(COMMANDSRECENT);
+                } catch (IOException | InterruptedException eve) {
+                    Toast.makeText(FloatWindow.this,R.string.check_root,Toast.LENGTH_SHORT).show();
+                    windowManager.removeView(floatingView);
+                    eve.printStackTrace();
+                }
+                return true;
+            }
+
+            @Override
+            public void onLongPress(@NonNull MotionEvent e) {
+                Log.d("onlongp", "onLongPress: ");
+                try {
+                    executeRootCommands(COMMANDSRECENT);
+                } catch (IOException | InterruptedException eve) {
+                    Toast.makeText(FloatWindow.this,R.string.check_root,Toast.LENGTH_SHORT).show();
+                    windowManager.removeView(floatingView);
+                    eve.printStackTrace();
+                }
+
+            }
+        });
+        checkroot();
+    }
+
+//    private void updateLayoutParams(float dx, float dy) {
+////        layoutParams.x += dx;
+////        layoutParams.y += dy;
+//        layoutParams.x= (int) dx;
+//        layoutParams.y= (int) dy;
+//        windowManager.updateViewLayout(floatingView, layoutParams);
+//    }
+
+    private void checkroot(){
+
+        try {
+            executeRootCommands(COMMANDSU);
+            checkRoot.setText(R.string.check_root_succeed);
+            checkRoot.setTextColor(Color.GREEN);
+            home.setEnabled(true);
+            recent.setEnabled(true);
+            addFloatingWindow();
+        } catch (IOException | InterruptedException e) {
+            checkRoot.setText(R.string.check_root_error);
+            checkRoot.setTextColor(Color.RED);
+            home.setEnabled(false);
+            recent.setEnabled(false);
+            if (floatingView==null) return;
+            windowManager.removeView(floatingView);
+        }
+    }
+
+
+    private void executeRootCommands(String[] commands) throws IOException, InterruptedException {
+        Process process = Runtime.getRuntime().exec("su");
+        DataOutputStream os = new DataOutputStream(process.getOutputStream());
+
+        for (String command : commands) {
+            os.writeBytes(command + "\n");
+            os.flush();
+        }
+        os.writeBytes("exit\n");
+        os.flush();
+        os.close();
+        process.waitFor();
+    }
+
+    private void addFloatingWindow() {
+        windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        floatingView = inflater.inflate(R.layout.floating_window_layout, null);
+
+        ImageView floatwindow = floatingView.findViewById(R.id.imageView2);
+        floatingView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                switch (motionEvent.getAction()) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        initialX = (int) motionEvent.getRawX();
+//                        initialY = (int) motionEvent.getRawY();
+//                        lastX = (int) initialX;
+//                        lastY = (int) initialY;
+//                        return true;
+//                    case MotionEvent.ACTION_MOVE:
+//                        int dx = (int) (motionEvent.getRawX() - initialX);
+//                        int dy = (int) (motionEvent.getRawY() - initialY);
+//                        updateLayoutParams(dx, dy);
+//                        return true;
+//                }
+                return gestureDetector.onTouchEvent(motionEvent);
+            }
+        });
+//        floatwindow.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                long currentTime = System.currentTimeMillis();
+//                if (currentTime - lastClickTime <= DOUBLE_CLICK_TIME_DELTA) {
+//                    // 双击事件
+//                    try {
+//                        executeRootCommands(COMMANDSRECENT);
+//                    } catch (IOException | InterruptedException e) {
+//                        Toast.makeText(FloatWindow.this,R.string.check_root,Toast.LENGTH_SHORT).show();
+//                        e.printStackTrace();
+//                    }
+//                } else {
+//                    // 单击事件
+//                    lastClickTime = currentTime;
+//                    handler.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            // 如果在规定时间内没有第二次点击，则重置lastClickTime
+//                            lastClickTime = 0;
+//                        }
+//                    }, DOUBLE_CLICK_TIME_DELTA);
+//
+//                    try {
+//                        executeRootCommands(COMMANDSHOME);
+//                    } catch (IOException | InterruptedException e) {
+//                        Toast.makeText(FloatWindow.this,R.string.check_root,Toast.LENGTH_SHORT).show();
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+////                windowManager.removeView(floatingView);
+////                finish();
+//            }
+//        });
+
+//        floatingView.setOnTouchListener(new View.OnTouchListener() {
+//
+//
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        currentTime = System.currentTimeMillis();
+//                        if (currentTime - firstClickTime <= DOUBLE_CLICK_TIME_DELTA) {
+//                            isDoubleClick = true;
+//                            // 这里可以立即处理双击事件，或者稍后处理（取决于您的需求）
+//                            try {
+//                                executeRootCommands(COMMANDSRECENT);
+//                            } catch (IOException | InterruptedException e) {
+//                                Toast.makeText(FloatWindow.this,R.string.check_root,Toast.LENGTH_SHORT).show();
+//                                windowManager.removeView(floatingView);
+//                                e.printStackTrace();
+//                            }
+//
+//                        } else {
+//                            isDoubleClick = false;
+//                            firstClickTime = currentTime;
+//
+//                            // 安排一个延迟任务来处理可能的单击事件
+//                            handler.postDelayed(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    if (!isDoubleClick) {
+//                                        // 处理单击事件
+//                                        try {
+//                                            executeRootCommands(COMMANDSHOME);
+//                                        } catch (IOException | InterruptedException e) {
+//                                            Toast.makeText(FloatWindow.this,R.string.check_root,Toast.LENGTH_SHORT).show();
+//                                            windowManager.removeView(floatingView);
+//                                            e.printStackTrace();
+//                                        }
+//                                    }
+//                                    // 重置 firstClickTime，因为我们已经处理了单击或双击事件
+//                                    firstClickTime = 0;
+//                                }
+//                            }, DOUBLE_CLICK_TIME_DELTA);
+//                        }
+//                        break;
+//                    // 您可能还需要处理 ACTION_UP 和 ACTION_CANCEL 事件来取消延迟任务（如果需要的话）
+//                }
+//                return true; // 消耗触摸事件，防止其他监听器（如 OnClickListener）接收到它
+//            }
+//        });
+
+//        floatingView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                try {
+//                    executeRootCommands(COMMANDSHOME);
+//                } catch (IOException | InterruptedException e) {
+//                    Toast.makeText(FloatWindow.this,R.string.check_root,Toast.LENGTH_SHORT).show();
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+
+//        floatwindow.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//                try {
+//                    executeRootCommands(COMMANDSRECENT);
+//                } catch (IOException | InterruptedException e) {
+//                    Toast.makeText(FloatWindow.this,R.string.check_root,Toast.LENGTH_SHORT).show();
+//                    e.printStackTrace();
+//                    windowManager.removeView(floatingView);
+//                    finish();
+//                }
+//                return true;
+//            }
+//        });
+
+//        floatingView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        initialX = (int) event.getRawX();
+//                        initialY = (int) event.getRawY();
+//                        dX = floatingView.getX() - event.getRawX();
+//                        dY = floatingView.getY() - event.getRawY();
+//                        break;
+//                    case MotionEvent.ACTION_MOVE:
+//                        floatingView.animate()
+//                                .x(event.getRawX() + dX)
+//                                .y(event.getRawY() + dY)
+//                                .setDuration(0)
+//                                .start();
+//                        break;
+//                }
+//                return true;
+//            }
+//        });
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+        int height = displayMetrics.heightPixels;
+
+        layoutParams = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ?
+                        WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY :
+                        WindowManager.LayoutParams.TYPE_PHONE,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT);
+
+        layoutParams.gravity = Gravity.TOP | Gravity.LEFT;
+        layoutParams.x = width;
+        layoutParams.y = height*3/10; // Adjust the initial position as needed
+
+        windowManager.addView(floatingView, layoutParams);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1234) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Settings.canDrawOverlays(this)) {
+                    addFloatingWindow();
+                } else {
+                    Toast.makeText(this, "Overlay permission is required!", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        checkroot();
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        Button button,button1;
+        button=findViewById(R.id.homeid);
+        button1=findViewById(R.id.recentid);
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int width = displayMetrics.widthPixels;
+            int height = displayMetrics.heightPixels;
+//            button.setText(width);
+//            button1.setText(height);
+
+            adjustFloatingWindowPosition( width, height);
+            // 横屏处理
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int width = displayMetrics.widthPixels;
+            int height = displayMetrics.heightPixels;
+//            button.setText(toString(width));
+//            button1.setText(height);
+            adjustFloatingWindowPosition( height, width);
+            // 竖屏处理
+        }
+    }
+
+    private void adjustFloatingWindowPosition(int width,int height) {
+
+        int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+        int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+
+        // 根据屏幕方向计算新的位置
+        // int newX = // 计算后的X坐标;
+        //  int newY = // 计算后的Y坐标;
+
+        // 更新LayoutParams
+        layoutParams.x = width;
+        layoutParams.y = height*3/10;
+
+        // 更新悬浮窗位置
+        windowManager.updateViewLayout(floatingView, layoutParams);
+    }
+}
