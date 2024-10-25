@@ -147,7 +147,7 @@ public class FloatWindow extends AppCompatActivity {
                 try {
                     executeRootCommands(COMMANDSHOME);
                 } catch (IOException | InterruptedException eve) {
-                    Toast.makeText(FloatWindow.this,R.string.check_root,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),R.string.check_root,Toast.LENGTH_SHORT).show();
                     windowManager.removeView(floatingView);
                     eve.printStackTrace();
                 }
@@ -160,7 +160,7 @@ public class FloatWindow extends AppCompatActivity {
                 try {
                     executeRootCommands(COMMANDSRECENT);
                 } catch (IOException | InterruptedException eve) {
-                    Toast.makeText(FloatWindow.this,R.string.check_root,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),R.string.check_root,Toast.LENGTH_SHORT).show();
                     windowManager.removeView(floatingView);
                     eve.printStackTrace();
                 }
@@ -173,7 +173,7 @@ public class FloatWindow extends AppCompatActivity {
                 try {
                     executeRootCommands(COMMANDSRECENT);
                 } catch (IOException | InterruptedException eve) {
-                    Toast.makeText(FloatWindow.this,R.string.check_root,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),R.string.check_root,Toast.LENGTH_SHORT).show();
                     windowManager.removeView(floatingView);
                     eve.printStackTrace();
                 }
@@ -207,7 +207,8 @@ public class FloatWindow extends AppCompatActivity {
             checkRoot.setTextColor(Color.RED);
             home.setEnabled(false);
             recent.setEnabled(false);
-            if (floatingView!=null) windowManager.removeView(floatingView);
+            if (floatingView==null) return false;
+                windowManager.removeView(floatingView);
             return false;
         }
     }
@@ -446,12 +447,12 @@ public class FloatWindow extends AppCompatActivity {
             adjustFloatingWindowPosition( width, height);
 //            if (floatingView!=null)
                 //windowManager.removeView(floatingView);
-            Log.d("TAG", "onConfigurationChanged: 横屏");
+
             // 横屏处理
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
 //            if (floatingView==null)
                 //windowManager.addView(floatingView, layoutParams);
-            Log.d("TAG", "onConfigurationChanged: 竖屏");
+
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             int width = displayMetrics.widthPixels;
