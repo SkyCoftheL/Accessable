@@ -114,7 +114,7 @@ public class FloatWindow extends AppCompatActivity {
         });
 
         findViewById(R.id.exitid).setOnClickListener(view -> {
-                windowManager.removeView(floatingView);
+            if (floatingView!=null) windowManager.removeView(floatingView);
                 finish();
 
         });
@@ -180,7 +180,8 @@ public class FloatWindow extends AppCompatActivity {
 
             }
         });
-        checkroot();
+         boolean isRoot=checkroot();
+//        addFloatingWindow();
     }
 
 //    private void updateLayoutParams(float dx, float dy) {
@@ -191,7 +192,7 @@ public class FloatWindow extends AppCompatActivity {
 //        windowManager.updateViewLayout(floatingView, layoutParams);
 //    }
 
-    private void checkroot(){
+    private boolean checkroot(){
 
         try {
             executeRootCommands(COMMANDSU);
@@ -199,14 +200,15 @@ public class FloatWindow extends AppCompatActivity {
             checkRoot.setTextColor(Color.GREEN);
             home.setEnabled(true);
             recent.setEnabled(true);
-            addFloatingWindow();
+            if (floatingView==null) addFloatingWindow();
+            return true;
         } catch (IOException | InterruptedException e) {
             checkRoot.setText(R.string.check_root_error);
             checkRoot.setTextColor(Color.RED);
             home.setEnabled(false);
             recent.setEnabled(false);
-            if (floatingView==null) return;
-            windowManager.removeView(floatingView);
+            if (floatingView!=null) windowManager.removeView(floatingView);
+            return false;
         }
     }
 
@@ -438,18 +440,24 @@ public class FloatWindow extends AppCompatActivity {
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             int width = displayMetrics.widthPixels;
             int height = displayMetrics.heightPixels;
-//            button.setText(width);
-//            button1.setText(height);
+////            button.setText(width);
+////            button1.setText(height);
 
             adjustFloatingWindowPosition( width, height);
+//            if (floatingView!=null)
+                //windowManager.removeView(floatingView);
+            Log.d("TAG", "onConfigurationChanged: 横屏");
             // 横屏处理
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+//            if (floatingView==null)
+                //windowManager.addView(floatingView, layoutParams);
+            Log.d("TAG", "onConfigurationChanged: 竖屏");
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             int width = displayMetrics.widthPixels;
             int height = displayMetrics.heightPixels;
-//            button.setText(toString(width));
-//            button1.setText(height);
+////            button.setText(toString(width));
+////            button1.setText(height);
             adjustFloatingWindowPosition( height, width);
             // 竖屏处理
         }
