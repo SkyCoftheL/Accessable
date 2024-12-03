@@ -17,9 +17,7 @@ import androidx.annotation.Nullable;
 
 
 public class WindowService extends Service {
-    private WindowManager windowManager;
-    private View floatingView;
-    private WindowManager.LayoutParams layoutParams;
+
     private Context context;
     private BroadcastReceiver mConfigurationChangeReceiver;
     private FloatWindows floatWindows;
@@ -36,18 +34,16 @@ public class WindowService extends Service {
     public void onCreate() {
         super.onCreate();
         context=getApplicationContext();
-
         floatWindows=new FloatWindows(context);
         floatWindows.initFloatWindows();
         floatWindows.addFloatingWindow();
-        Toast.makeText(context,"service start",Toast.LENGTH_SHORT).show();
-        Log.d("TAG", "onCreate: service start");
+        Toast.makeText(context,"service started",Toast.LENGTH_SHORT).show();
+        Log.d("TAG", "onCreate: service started");
         mConfigurationChangeReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
                 if (Intent.ACTION_CONFIGURATION_CHANGED.equals(action)) {
-                    //Log.d("FloatingWindowService", "Configuration change detected.");
                     floatWindows.adjustFloatingWindowPosition();
                 }
             }
@@ -60,16 +56,13 @@ public class WindowService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (floatingView!=null&&windowManager!=null){
-            windowManager.removeView(floatingView);
-        }
         if (mConfigurationChangeReceiver!= null) {
             unregisterReceiver(mConfigurationChangeReceiver);
         }
     }
 
     public void closeService(){
-        windowManager.removeView(floatingView);
+        floatWindows.removeFloatingWindow();
         stopSelf();
     }
 

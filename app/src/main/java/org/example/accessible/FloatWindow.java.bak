@@ -87,7 +87,7 @@ public class FloatWindow extends AppCompatActivity {
         }
 
 
-
+/*
         home=findViewById(R.id.homeid);
         recent=findViewById(R.id.recentid);
 
@@ -119,7 +119,7 @@ public class FloatWindow extends AppCompatActivity {
                 finish();
 
         });
-
+*/
         checkRoot=findViewById(R.id.infor);
         checkRoot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -440,41 +440,41 @@ public class FloatWindow extends AppCompatActivity {
         checkroot();
     }
 
-    @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        Button button,button1;
-        button=findViewById(R.id.homeid);
-        button1=findViewById(R.id.recentid);
-        super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            int width = displayMetrics.widthPixels;
-            int height = displayMetrics.heightPixels;
-////            button.setText(width);
-////            button1.setText(height);
-
-            adjustFloatingWindowPosition( width, height);
-            Log.d("TAG", width+"onConfigurationChanged: 横屏"+height);
-//            if (floatingView!=null)
-                //windowManager.removeView(floatingView);
-
-            // 横屏处理
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-//            if (floatingView==null)
-                //windowManager.addView(floatingView, layoutParams);
-
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            int width = displayMetrics.widthPixels;
-            int height = displayMetrics.heightPixels;
-////            button.setText(toString(width));
-////            button1.setText(height);
-            Log.d("TAG", width+"onConfigurationChanged: 竖屏"+height);
-            adjustFloatingWindowPosition( height, width);
-            // 竖屏处理
-        }
-    }
+    //@Override
+//    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+//        Button button,button1;
+//        button=findViewById(R.id.homeid);
+//        button1=findViewById(R.id.recentid);
+//        super.onConfigurationChanged(newConfig);
+//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            DisplayMetrics displayMetrics = new DisplayMetrics();
+//            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+//            int width = displayMetrics.widthPixels;
+//            int height = displayMetrics.heightPixels;
+//////            button.setText(width);
+//////            button1.setText(height);
+//
+//            adjustFloatingWindowPosition( width, height);
+//            Log.d("TAG", width+"onConfigurationChanged: 横屏"+height);
+////            if (floatingView!=null)
+//                //windowManager.removeView(floatingView);
+//
+//            // 横屏处理
+//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+////            if (floatingView==null)
+//                //windowManager.addView(floatingView, layoutParams);
+//
+//            DisplayMetrics displayMetrics = new DisplayMetrics();
+//            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+//            int width = displayMetrics.widthPixels;
+//            int height = displayMetrics.heightPixels;
+//////            button.setText(toString(width));
+//////            button1.setText(height);
+//            Log.d("TAG", width+"onConfigurationChanged: 竖屏"+height);
+//            adjustFloatingWindowPosition( height, width);
+//            // 竖屏处理
+//        }
+//    }
 
     private void adjustFloatingWindowPosition(int width,int height) {
 

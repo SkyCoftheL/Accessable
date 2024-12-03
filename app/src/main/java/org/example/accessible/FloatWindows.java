@@ -103,7 +103,6 @@ public class FloatWindows {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             floatingView = inflater.inflate(R.layout.floating_window_layout, null);
 
-            ImageView floatwindow = floatingView.findViewById(R.id.imageView2);
             floatingView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -132,7 +131,9 @@ public class FloatWindows {
             layoutParams.y = height * 2 / 5; // Adjust the initial position as needed
             layoutParams.alpha = 0.7f;
             windowManager.addView(floatingView, layoutParams);
-        }else Log.d("TAG", "addFloatingWindow: check windowsManager");
+
+        }
+        else Log.d("TAG", "addFloatingWindow: check windowsManager");
     }
 
 
@@ -142,15 +143,21 @@ public class FloatWindows {
         int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
 
-        // 更新LayoutParams
-//        layoutParams.x = width;
-//        layoutParams.y = height*3/10;
 
         layoutParams.x=screenWidth;
         layoutParams.y=screenHeight*2/5;
 
         // 更新悬浮窗位置
         windowManager.updateViewLayout(floatingView, layoutParams);
+    }
+
+    public boolean removeFloatingWindow(){
+        if (floatingView!=null&&windowManager!=null){
+            windowManager.removeView(floatingView);
+            return true;
+        }
+
+        return false;
     }
 
 }

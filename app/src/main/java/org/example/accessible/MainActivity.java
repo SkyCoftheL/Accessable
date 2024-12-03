@@ -17,8 +17,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView checkRoot;
-    private Button home,recent,start,stop;
+    private Button start,stop;
     private WindowService mService;
     private boolean mBound;
 
@@ -46,11 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                         Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent, 1234);
-            } else {
-                //addFloatingWindow();
             }
-        } else {
-            //addFloatingWindow();
         }
 
         start=findViewById(R.id.startButton);
@@ -66,8 +61,10 @@ public class MainActivity extends AppCompatActivity {
         stop.setOnClickListener(view -> {
 
             if (mBound) {
+                mService.closeService();
                 unbindService(mConnection);
-                Toast.makeText(this,"Service is unbind"+mBound,Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Service unbounded",Toast.LENGTH_SHORT).show();
+                mBound=false;
             }
         });
     }
@@ -85,11 +82,8 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1234) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (Settings.canDrawOverlays(this)) {
-                    Toast.makeText(this,"successful",Toast.LENGTH_SHORT).show();
-                } else {
+                if (!Settings.canDrawOverlays(this)) {
                     Toast.makeText(this, "Overlay permission is required", Toast.LENGTH_SHORT).show();
-
                 }
             }
         }
