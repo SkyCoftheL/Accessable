@@ -75,7 +75,7 @@ public class WindowService extends Service {
     }
 }
 // TODO: 2024/12/3 如通过广播接收器），那么模拟物理按键的悬浮窗在屏幕发生改变时是可以跟着改变位置的。 
-// TODO: 2024/12/3 service is not killed 
+// TODO: 2024/12/3 服务保活未实现
 
 
 
