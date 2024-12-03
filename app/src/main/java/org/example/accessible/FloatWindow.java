@@ -114,7 +114,8 @@ public class FloatWindow extends AppCompatActivity {
         });
 
         findViewById(R.id.exitid).setOnClickListener(view -> {
-            if (floatingView!=null) windowManager.removeView(floatingView);
+            if (floatingView==null) return;
+                windowManager.removeView(floatingView);
                 finish();
 
         });
@@ -180,8 +181,8 @@ public class FloatWindow extends AppCompatActivity {
 
             }
         });
-         boolean isRoot=checkroot();
-//        addFloatingWindow();
+         //boolean isRoot=checkroot();
+        addFloatingWindow();
     }
 
 //    private void updateLayoutParams(float dx, float dy) {
@@ -207,7 +208,7 @@ public class FloatWindow extends AppCompatActivity {
             checkRoot.setTextColor(Color.RED);
             home.setEnabled(false);
             recent.setEnabled(false);
-            if (floatingView==null) return false;
+            if (floatingView!=null)
                 windowManager.removeView(floatingView);
             return false;
         }
@@ -405,6 +406,15 @@ public class FloatWindow extends AppCompatActivity {
         layoutParams.gravity = Gravity.TOP | Gravity.LEFT;
         layoutParams.x = width;
         layoutParams.y = height*3/10; // Adjust the initial position as needed
+        layoutParams.alpha=0.7f;
+//        layoutParams.flags |= WindowManager.LayoutParams.FLAG_BLUR_BEHIND;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//            layoutParams.setBlurBehindRadius(80);
+//              模糊设置
+//        }
+//        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.S) {
+//            getWindow().setBackgroundBlurRadius(80);
+//        }
 
         windowManager.addView(floatingView, layoutParams);
     }
@@ -445,6 +455,7 @@ public class FloatWindow extends AppCompatActivity {
 ////            button1.setText(height);
 
             adjustFloatingWindowPosition( width, height);
+            Log.d("TAG", width+"onConfigurationChanged: 横屏"+height);
 //            if (floatingView!=null)
                 //windowManager.removeView(floatingView);
 
@@ -459,6 +470,7 @@ public class FloatWindow extends AppCompatActivity {
             int height = displayMetrics.heightPixels;
 ////            button.setText(toString(width));
 ////            button1.setText(height);
+            Log.d("TAG", width+"onConfigurationChanged: 竖屏"+height);
             adjustFloatingWindowPosition( height, width);
             // 竖屏处理
         }
