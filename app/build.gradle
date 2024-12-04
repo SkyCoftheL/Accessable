@@ -10,8 +10,8 @@ android {
         applicationId "org.example.accessible"
         minSdk 24
         targetSdk 33
-        versionCode 8
-        versionName "0.71"
+        versionCode 9
+        versionName '0.72'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

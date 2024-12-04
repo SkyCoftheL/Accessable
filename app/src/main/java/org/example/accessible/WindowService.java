@@ -1,5 +1,6 @@
 package org.example.accessible;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,10 +19,14 @@ import androidx.annotation.Nullable;
 
 public class WindowService extends Service {
 
+    private static final int NOTIFICATION_ID = 1;
+
     private Context context;
     private BroadcastReceiver mConfigurationChangeReceiver;
     private FloatWindows floatWindows;
     private final IBinder mBinder = new LocalBinder();
+
+    private Foreground foreground;
 
 
     @Nullable
@@ -34,6 +39,15 @@ public class WindowService extends Service {
     public void onCreate() {
         super.onCreate();
         context=getApplicationContext();
+
+        foreground=new Foreground(context);
+        foreground.createNotificationChannel();
+
+        Notification notification=foreground.createNotification();
+
+        startForeground(NOTIFICATION_ID,notification);
+
+
         floatWindows=new FloatWindows(context);
         floatWindows.initFloatWindows();
         floatWindows.addFloatingWindow();
@@ -56,9 +70,13 @@ public class WindowService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+        stopForeground(true);
+
         if (mConfigurationChangeReceiver!= null) {
             unregisterReceiver(mConfigurationChangeReceiver);
         }
+
     }
 
     public void closeService(){

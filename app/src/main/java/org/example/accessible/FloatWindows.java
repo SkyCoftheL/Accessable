@@ -31,7 +31,7 @@ public class FloatWindows {
             "input keyevent 3", // HOME 键
     };
 
-    // TODO: 2024/12/3 使用按键事件来处理，免root方案 
+    // TODO: 2024/12/3 使用按键事件来处理，免root方案
 
     private WindowManager windowManager;
     private View floatingView;
