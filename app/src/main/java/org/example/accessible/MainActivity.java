@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         start=findViewById(R.id.startButton);
         stop=findViewById(R.id.stopButton);
 
+
+
         start.setOnClickListener(view -> {
             if (CheckRoot.isRooted()) {
                 Intent intent = new Intent(this, WindowService.class);
@@ -76,6 +78,11 @@ public class MainActivity extends AppCompatActivity {
         if (mBound) {
             unbindService(mConnection);
         }
+    }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);  // 确保后续通过getIntent获取的是最新的意图
     }
 
     @Override

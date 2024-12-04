@@ -28,6 +28,8 @@ public class WindowService extends Service {
 
     private Foreground foreground;
 
+    private  boolean isRemoveFloatingWindow=false;
+
 
     @Nullable
     @Override
@@ -73,14 +75,16 @@ public class WindowService extends Service {
 
         stopForeground(true);
 
+        if (!isRemoveFloatingWindow) isRemoveFloatingWindow=floatWindows.removeFloatingWindow();
+
         if (mConfigurationChangeReceiver!= null) {
             unregisterReceiver(mConfigurationChangeReceiver);
         }
-
+        Log.d("TAG", "onDestroy: service destroyed");
     }
 
     public void closeService(){
-        floatWindows.removeFloatingWindow();
+        isRemoveFloatingWindow=floatWindows.removeFloatingWindow();
         stopSelf();
     }
 
