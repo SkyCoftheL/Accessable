@@ -44,11 +44,11 @@ public class Foreground {
 
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setContentTitle("Accessible")
+                .setContentTitle("Accessibility")
                 .setContentText("Service is running")
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.accessible);
+                .setSmallIcon(R.drawable.accessiblenotice);
         return builder.build();
     }
 }

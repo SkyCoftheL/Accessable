@@ -10,6 +10,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://api.xposed.info/' }  // 添加这一行即可
     }
 }
 rootProject.name = "Accessible"

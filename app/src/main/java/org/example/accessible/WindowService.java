@@ -1,5 +1,6 @@
 package org.example.accessible;
 
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -9,12 +10,15 @@ import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import org.w3c.dom.Text;
 
 
 public class WindowService extends Service {
@@ -27,6 +31,8 @@ public class WindowService extends Service {
     private final IBinder mBinder = new LocalBinder();
 
     private Foreground foreground;
+    private Notification notification;
+
 
     private  boolean isRemoveFloatingWindow=false;
 
@@ -45,15 +51,15 @@ public class WindowService extends Service {
         foreground=new Foreground(context);
         foreground.createNotificationChannel();
 
-        Notification notification=foreground.createNotification();
-
-        startForeground(NOTIFICATION_ID,notification);
 
 
         floatWindows=new FloatWindows(context);
+
+
+
         floatWindows.initFloatWindows();
         floatWindows.addFloatingWindow();
-        Toast.makeText(context,"service started",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context,"Service started",Toast.LENGTH_SHORT).show();
         Log.d("TAG", "onCreate: service started");
         mConfigurationChangeReceiver = new BroadcastReceiver() {
             @Override
@@ -67,6 +73,9 @@ public class WindowService extends Service {
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_CONFIGURATION_CHANGED);
         registerReceiver(mConfigurationChangeReceiver, filter);
+
+        notification=foreground.createNotification();
+        startForeground(NOTIFICATION_ID,notification);
     }
 
     @Override
