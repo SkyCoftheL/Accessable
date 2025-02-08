@@ -2,7 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".MainActivity">
@@ -20,8 +20,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="30dp"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
@@ -29,7 +29,7 @@
                     android:id="@+id/Servicetext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Service"
+                    android:text="@string/lay_text_service"
                     android:textStyle="bold" />
 
                 <Button
@@ -38,20 +38,20 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="30dp"
-                    android:text="startSerive" />
+                    android:text="@string/lay_button_start" />
 
                 <Button
                     android:id="@+id/stopButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="stopSerive" />
+                    android:text="@string/lay_button_stop" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="30dp"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
@@ -59,7 +59,7 @@
                     android:id="@+id/RTInfor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Runtime information"
+                    android:text="@string/lay_text_runtime"
                     android:textStyle="bold" />
 
                 <TextView
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="30dp"
-                    android:text="Service is unStarted" />
+                    android:text="@string/lay_text_unrun" />
 
                 <TextView
                     android:id="@+id/activate"
@@ -76,21 +76,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="30dp"
-                    android:text="Xposed框架未激活" />
+                    android:text="@string/lay_text_xp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="30dp"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/settings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Settings"
+                    android:text="@string/lay_text_settings"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -103,7 +103,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="SingleTap" />
+                        android:text="@string/lay_text_single" />
 
                     <EditText
                         android:id="@+id/SingleTapEdit"
@@ -111,7 +111,7 @@
                         android:layout_height="50dp"
                         android:layout_weight="1"
                         android:ems="11"
-                        android:hint="input a keyneme or keycode i.e."
+                        android:hint="@string/lay_edit_single"
                         android:inputType="text" />
 
                 </LinearLayout>
@@ -126,7 +126,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="DoubleTap" />
+                        android:text="@string/lay_text_double" />
 
                     <EditText
                         android:id="@+id/DoubleTapEdit"
@@ -134,7 +134,7 @@
                         android:layout_height="50dp"
                         android:layout_weight="1"
                         android:ems="11"
-                        android:hint="KEYCODE_APP_SWITCH"
+                        android:hint="@string/lay_edit_double"
                         android:inputType="text" />
 
                 </LinearLayout>
@@ -149,7 +149,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="LongPress" />
+                        android:text="@string/lay_text_long" />
 
                     <EditText
                         android:id="@+id/LongPressEdit"
@@ -157,7 +157,7 @@
                         android:layout_height="50dp"
                         android:layout_weight="1"
                         android:ems="11"
-                        android:hint="187"
+                        android:hint="@string/lay_edit_long"
                         android:inputType="text" />
 
                 </LinearLayout>
@@ -167,21 +167,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="30dp"
-                    android:text="save" />
+                    android:text="@string/lay_button_save" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="30dp"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="MIUI特供（展望）"
+                    android:text="@string/lay_text_miui"
                     android:textStyle="bold" />
 
                 <Switch
@@ -189,7 +190,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="30dp"
-                    android:text="移除上层显示通知"
+                    android:text="@string/lay_switch_remove"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 <Switch
@@ -197,15 +198,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginBottom="30dp"
-                    android:text="禁止折叠为历史通知"
+                    android:text="@string/lay_switch_collapse"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="30dp"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -213,7 +214,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Flowing"
+                    android:text="@string/lay_text_flowing"
                     android:textStyle="bold" />
 
                 <TextView
@@ -221,10 +222,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
                     android:autoLink="web"
-                    android:textColorLink="#676464"
-                    android:text="https://github.com/SkyCoftheL/Accessable" />
+                    android:gravity="center_vertical"
+                    android:text="@string/lay_text_github_url"
+                    android:textColorLink="#676464" />
 
 
             </LinearLayout>
@@ -241,16 +242,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Document"
+                    android:text="@string/lay_text_document"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/docinfro"
                     android:layout_width="match_parent"
-                    android:gravity="center_vertical"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-
+                    android:gravity="center_vertical"
                     android:text="@string/doc_infor" />
             </LinearLayout>
 

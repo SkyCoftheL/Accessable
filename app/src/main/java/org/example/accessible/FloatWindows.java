@@ -101,7 +101,7 @@ public class FloatWindows {
                     executeRootCommands((String[]) msg.obj);
                 } catch (IOException | InterruptedException e) {
                     Log.e("FloatWindows", "Error executing root commands", e);
-                    Toast.makeText(context,"Error executing root commands",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,context.getString(R.string.runtimeErr),Toast.LENGTH_SHORT).show();
                     // 可以使用 Toast 通知用户
                 }
 
@@ -186,6 +186,8 @@ public class FloatWindows {
 
 
                 return true;
+
+
             }
         });
 

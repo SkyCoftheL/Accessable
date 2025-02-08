@@ -59,7 +59,7 @@ public class WindowService extends Service {
 
         floatWindows.initFloatWindows();
         floatWindows.addFloatingWindow();
-        Toast.makeText(context,"Service started",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context,getString(R.string.service_start),Toast.LENGTH_SHORT).show();
         Log.d("TAG", "onCreate: service started");
         mConfigurationChangeReceiver = new BroadcastReceiver() {
             @Override

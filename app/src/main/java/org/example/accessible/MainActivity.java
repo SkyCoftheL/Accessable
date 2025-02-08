@@ -28,7 +28,7 @@ import de.robv.android.xposed.XposedBridge;
 public class MainActivity extends AppCompatActivity {
 
     private Button start,stop,save;
-    private TextView inforview,urltext;
+    private TextView inforview;
     private WindowService mService;
     private boolean mBound;
 
@@ -71,9 +71,6 @@ public class MainActivity extends AppCompatActivity {
         stop=findViewById(R.id.stopButton);
         save=findViewById(R.id.saveButton);
         inforview=findViewById(R.id.infortextview);
-        urltext=findViewById(R.id.urltext);
-
-        //urltext.setAutoLinkMask(Linkify.WEB_URLS);
 
 
 
@@ -96,10 +93,10 @@ public class MainActivity extends AppCompatActivity {
             if (CheckRoot.isRooted()) {
                 Intent intent = new Intent(this, WindowService.class);
                 bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-                inforview.setText("Service is running");
+                inforview.setText(getString(R.string.notification_content));
             }else {
-                Toast.makeText(this,"Root permission is required",Toast.LENGTH_SHORT).show();
-                inforview.setText("Root permission is required");
+                Toast.makeText(this,getString(R.string.root_required),Toast.LENGTH_SHORT).show();
+                inforview.setText(getString(R.string.root_required));
             }
         });
 
@@ -108,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
             if (mBound) {
                 mService.closeService();
                 unbindService(mConnection);
-                Toast.makeText(this,"Service unbounded",Toast.LENGTH_SHORT).show();
-                inforview.setText("Service unbounded");
+                Toast.makeText(this,getString(R.string.service_unbounded),Toast.LENGTH_SHORT).show();
+                inforview.setText(getString(R.string.service_unbounded));
                 mBound=false;
             }
         });
@@ -149,8 +146,8 @@ public class MainActivity extends AppCompatActivity {
 
 
             if (newRowId > 0||rowsAffected>0) {
-                Toast.makeText(this,"Saved,Restart the service to enable",Toast.LENGTH_SHORT).show();
-            }else Toast.makeText(this,"Check",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,getString(R.string.db_s),Toast.LENGTH_SHORT).show();
+            }else Toast.makeText(this,getString(R.string.db_f),Toast.LENGTH_SHORT).show();
 
 
 
@@ -182,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1234) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (!Settings.canDrawOverlays(this)) {
-                    Toast.makeText(this, "Overlay permission is required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.overlay_permission), Toast.LENGTH_SHORT).show();
                 }
             }
         }

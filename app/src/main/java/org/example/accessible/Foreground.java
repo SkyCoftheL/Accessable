@@ -25,7 +25,7 @@ public class Foreground {
     public void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // 创建通知渠道对象，设置渠道名称、描述和重要性级别
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Foreground Service Channel",
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, context.getString(R.string.notification_infor),
                     NotificationManager.IMPORTANCE_DEFAULT);
             // 获取系统的通知管理器服务
             NotificationManager manager = context.getSystemService(NotificationManager.class);
@@ -44,8 +44,8 @@ public class Foreground {
 
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setContentTitle("Accessibility")
-                .setContentText("Service is running")
+                .setContentTitle(context.getString(R.string.app_name))
+                .setContentText(context.getText(R.string.notification_content))
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.accessiblenotice);

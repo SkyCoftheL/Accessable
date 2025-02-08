@@ -1,27 +1,26 @@
 <resources>
-    <string name="app_name">Accessibility</string>
+    <string name="app_name">按键宝</string>
 
-    <string name="check_root">Check Your Root</string>
-    <string name="check_root_error">ERROR:Check Your Root</string>
-    <string name="check_root_succeed">SUCCEED:Enjoy Yourself</string>
-    <string name="root_required">Root Permission is required</string>
+    <string name="check_root">检查你的 root</string>
+    <string name="check_root_error">错误：检查你的root</string>
+    <string name="check_root_succeed">成功</string>
+    <string name="root_required">需要root权限</string>
 
-    <string name="overlay_permission">Overlay permission is required</string>
+    <string name="overlay_permission">悬浮窗权限是必要的</string>
 
-    <string name="service_start">Service Started</string>
-    <string name="service_unbounded">Service Unbounded</string>
+    <string name="service_start">服务启动成功</string>
+    <string name="service_unbounded">服务解除绑定</string>
 
-    <string name="db_s">Saved,Restart the service to enable</string>
-    <string name="db_f">Check the contents</string>
+    <string name="db_s">保存成功，重新启动服务以便启用</string>
+    <string name="db_f">保存失败，检查内容</string>
 
-    <string name="introduce_model">When you have a problem with your physical buttons, you can use
-        this to replace your physical buttons, or when you have other personalized needs, you can
-        also use this, such as using it as a shutter…</string>
+    <string name="introduce_model">当你的物理按键出现问题的时候，可以通过这个来代替你的物理按键，或者你有其他个性化
+        需求的时候，也可以通过这个，例如使用来充当快门…</string>
 
-    <string name="runtimeErr">Error executing root commands</string>
+    <string name="runtimeErr">运行root命令时出错</string>
 
-    <string name="notification_infor">Foreground Service Channel</string>
-    <string name="notification_content">Service is running</string>
+    <string name="notification_infor">前台服务通知</string>
+    <string name="notification_content">服务正在运行</string>
 
     <string name="doc_infor">\n
         ACTION_DOWN = 0\n
@@ -378,24 +377,24 @@
     META_SHIFT_RIGHT_ON = 128\n
     META_SYM_ON = 4\n
     </string>
-    <string name="lay_text_service">Service</string>
-    <string name="lay_button_start">StartService</string>
-    <string name="lay_button_stop">StopService</string>
-    <string name="lay_text_runtime">Runtime Information</string>
-    <string name="lay_text_unrun">Service is unStarted</string>
-    <string name="lay_text_xp">The xposed framework is not activated</string>
-    <string name="lay_text_settings">Settings</string>
-    <string name="lay_text_single">SingleTap</string>
-    <string name="lay_edit_single">input a keyneme or keycode i.e.</string>
-    <string name="lay_text_double">DoubleTap</string>
+    <string name="lay_text_service">服务</string>
+    <string name="lay_button_start">启动服务</string>
+    <string name="lay_button_stop">停止服务</string>
+    <string name="lay_text_runtime">运行信息</string>
+    <string name="lay_text_unrun">服务没有启动</string>
+    <string name="lay_text_xp">Xposed 框架未激活</string>
+    <string name="lay_text_settings">设置</string>
+    <string name="lay_text_single">单击</string>
+    <string name="lay_edit_single">输入键名或键值 例如</string>
+    <string name="lay_text_double">双击</string>
     <string name="lay_edit_double">KEYCODE_APP_SWITCH</string>
-    <string name="lay_text_long">LongPress</string>
+    <string name="lay_text_long">长按</string>
     <string name="lay_edit_long">187</string>
-    <string name="lay_button_save">Save</string>
-    <string name="lay_text_miui">MIUI Special offer</string>
-    <string name="lay_switch_remove">Removed the upper display notification</string>
-    <string name="lay_switch_collapse">Collapse into history notifications is prohibited</string>
-    <string name="lay_text_flowing">Flowing</string>
+    <string name="lay_button_save">保存</string>
+    <string name="lay_text_miui">MIUI 特供</string>
+    <string name="lay_switch_remove">移除上层显示通知</string>
+    <string name="lay_switch_collapse">禁止折叠为历史通知</string>
+    <string name="lay_text_flowing">关注</string>
     <string name="lay_text_github_url">https://github.com/SkyCoftheL/Accessiable</string>
-    <string name="lay_text_document">Document</string>
+    <string name="lay_text_document">文档</string>
 </resources>
