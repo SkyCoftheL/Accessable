@@ -19,7 +19,9 @@ import android.text.util.Linkify;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private final static int dataBaseVersion=1;
     private EditText singleEdit,doubleEdit,longPressEdit;
     private ContentValues updateValues;
+
+    private Switch upper,unimportant;
 
     private final ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -78,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
         doubleEdit=findViewById(R.id.DoubleTapEdit);
         longPressEdit=findViewById(R.id.LongPressEdit);
 
+        upper=findViewById(R.id.upper);
+        unimportant=findViewById(R.id.unimportant);
+
 
 
         myDataBases =new MyDataBases(this,dataBaseName,null,dataBaseVersion);
@@ -108,6 +115,28 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this,getString(R.string.service_unbounded),Toast.LENGTH_SHORT).show();
                 inforview.setText(getString(R.string.service_unbounded));
                 mBound=false;
+            }
+        });
+
+        upper.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (upper.isChecked()) {
+                    Toast.makeText(getApplicationContext(),
+                            getString(R.string.delete_on_post_notification), Toast.LENGTH_SHORT).show();
+                    upper.setChecked(false);
+                }
+            }
+        });
+
+        unimportant.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (unimportant.isChecked()) {
+                    Toast.makeText(getApplicationContext(),
+                            getString(R.string.remove_unimportant_notification), Toast.LENGTH_SHORT).show();
+                    unimportant.setChecked(false);
+                }
             }
         });
 

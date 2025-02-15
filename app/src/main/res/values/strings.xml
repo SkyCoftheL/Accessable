@@ -398,4 +398,6 @@
     <string name="lay_text_flowing">Flowing</string>
     <string name="lay_text_github_url">https://github.com/SkyCoftheL/Accessiable</string>
     <string name="lay_text_document">Document</string>
+    <string name="delete_on_post_notification">This feature will be implemented in the future</string>
+    <string name="remove_unimportant_notification">This feature will be implemented in the future</string>
 </resources>

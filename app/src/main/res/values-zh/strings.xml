@@ -397,4 +397,6 @@
     <string name="lay_text_flowing">关注</string>
     <string name="lay_text_github_url">https://github.com/SkyCoftheL/Accessiable</string>
     <string name="lay_text_document">文档</string>
+    <string name="delete_on_post_notification">这个特性将在未来实现</string>
+    <string name="remove_unimportant_notification">这个特性将在未来实现</string>
 </resources>
